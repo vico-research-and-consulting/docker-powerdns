@@ -1,4 +1,5 @@
 # PowerDNS Docker Container
+Based on [psitrax/powerdns](https://hub.docker.com/r/psitrax/powerdns/).
 
 [![Image Size](https://images.microbadger.com/badges/image/psitrax/powerdns.svg)](https://microbadger.com/images/psitrax/powerdns)
 [![Docker Stars](https://img.shields.io/docker/stars/psitrax/powerdns.svg)](https://hub.docker.com/r/psitrax/powerdns/)
@@ -27,7 +28,7 @@ $ docker run -d \
   --name pdns-mysql \
   -e MYSQL_ROOT_PASSWORD=supersecret \
   -v $PWD/mysql-data:/var/lib/mysql \
-  mariadb:10.1
+  mariadb:10.5.12
 
 $ docker run --name pdns \
   --link pdns-mysql:mysql \
@@ -36,7 +37,7 @@ $ docker run --name pdns \
   -e MYSQL_USER=root \
   -e MYSQL_PASS=supersecret \
   -e MYSQL_PORT=3306 \
-  psitrax/powerdns \
+  freinet/powerdns \
     --cache-ttl=120 \
     --allow-axfr-ips=127.0.0.1,123.1.2.3
 ```
@@ -55,23 +56,25 @@ $ docker run --name pdns \
 * Want to disable mysql initialization? Use `MYSQL_AUTOCONF=false`
 * DNSSEC is disabled by default, to enable use `MYSQL_DNSSEC=yes`
 * Want to use own config files? Mount a Volume to `/etc/pdns/conf.d` or simply overwrite `/etc/pdns/pdns.conf`
+* To run additional startup scripts from entrypoint.sh before starting PowerDNS, mount them into `/entrypoint.d`
 
 **PowerDNS Configuration:**
 
 Append the PowerDNS setting to the command as shown in the example above.
-See `docker run --rm psitrax/powerdns --help`
-
+See `docker run --rm freinet/powerdns --help`
 
 ## License
 
 [GNU General Public License v2.0](https://github.com/PowerDNS/pdns/blob/master/COPYING) applyies to PowerDNS and all files in this repository.
 
 
-## Maintainer
+## Maintainers
 
-* Christoph Wiechert <wio@psitrax.de>
+* Sebastian Pitsch <pitsch@freinet.de>
+* Dominic Zöller <zoeller@freinet.de>
 
 ### Credits
 
+* Christoph Wiechert <wio@psitrax.de>: Original Project which we forked from
 * Mathias Kaufmann <me@stei.gr>: Reduced image size
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+# Based on https://hub.docker.com/r/psitrax/powerdns/
 set -e
 
 # usage: file_env VAR [DEFAULT]
@@ -91,6 +92,15 @@ if $MYSQL_AUTOCONF ; then
 
   unset -v MYSQL_PASS
 fi
+
+# extra startup scripts
+for f in /docker-entrypoint.d/*; do
+    case "$f" in
+        *.sh)     echo "$0: running $f"; . "$f" ;;
+        *)        echo "$0: ignoring $f" ;;
+    esac
+    echo
+done
 
 # Run pdns server
 trap "pdns_control quit" SIGHUP SIGINT SIGTERM

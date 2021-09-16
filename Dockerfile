@@ -1,5 +1,6 @@
 FROM alpine:3.13
-MAINTAINER Christoph Wiechert <wio@psitrax.de>
+LABEL Name="powerdns" Version="4.4.1" maintainers="Sebastian Pitsch <pitsch@freinet.de>, Dominic Zöller <zoeller@freinet.de>"
+# Based on https://hub.docker.com/r/psitrax/powerdns/
 
 ENV POWERDNS_VERSION=4.4.1 \
     MYSQL_DEFAULT_AUTOCONF=true \
@@ -20,9 +21,8 @@ RUN apk --update add bash libpq sqlite-libs libstdc++ libgcc mariadb-client mari
     mkdir -p /etc/pdns/conf.d && \
     addgroup -S pdns 2>/dev/null && \
     adduser -S -D -H -h /var/empty -s /bin/false -G pdns -g pdns pdns 2>/dev/null && \
-    cp /usr/lib/libboost_program_options.so* /tmp && \
     apk del --purge build-deps && \
-    mv /tmp/lib* /usr/lib/ && \
+    apk add boost-program_options && \
     rm -rf /tmp/pdns-$POWERDNS_VERSION /var/cache/apk/*
 
 ADD schema.sql pdns.conf /etc/pdns/
