@@ -73,24 +73,30 @@ if $MYSQL_AUTOCONF ; then
     exit 1
   fi
 
-  # init database if necessary
-  echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DB;" | $MYSQLCMD
-  MYSQLCMD="$MYSQLCMD $MYSQL_DB"
+  # Don't try to execute writing statements if the DBMS is running in read-only mode, which is often the case for replica/slave instances
+  if [ "$(echo "SELECT @@global.read_only;" | $MYSQLCMD)" -eq 0 ]; then
+    # init database if necessary
+    echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DB;" | $MYSQLCMD
+    MYSQLCMD="$MYSQLCMD $MYSQL_DB"
 
-  if [ "$(echo "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = \"$MYSQL_DB\";" | $MYSQLCMD)" -le 1 ]; then
-    echo Initializing Database
-    cat /etc/pdns/schema.sql | $MYSQLCMD
+    if [ "$(echo "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = \"$MYSQL_DB\";" | $MYSQLCMD)" -le 1 ]; then
+      echo Initializing Database
+      cat /etc/pdns/schema.sql | $MYSQLCMD
 
-    # Run custom mysql post-init sql scripts
-    if [ -d "/etc/pdns/mysql-postinit" ]; then
-      for SQLFILE in $(ls -1 /etc/pdns/mysql-postinit/*.sql | sort) ; do
-        echo Source $SQLFILE
-        cat $SQLFILE | $MYSQLCMD
-      done
+      # Run custom mysql post-init sql scripts
+      if [ -d "/etc/pdns/mysql-postinit" ]; then
+        for SQLFILE in $(ls -1 /etc/pdns/mysql-postinit/*.sql | sort) ; do
+          echo Source $SQLFILE
+          cat $SQLFILE | $MYSQLCMD
+        done
+      fi
     fi
+  else
+    echo "$0: DBMS is running in read-only mode; skipping initialization"
   fi
 
   unset -v MYSQL_PASS
+  unset -v MYSQLCMD
 fi
 
 # extra startup scripts

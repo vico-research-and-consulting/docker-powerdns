@@ -1,18 +1,13 @@
 # PowerDNS Docker Container
 Based on [psitrax/powerdns](https://hub.docker.com/r/psitrax/powerdns/).
 
-[![Image Size](https://images.microbadger.com/badges/image/psitrax/powerdns.svg)](https://microbadger.com/images/psitrax/powerdns)
-[![Docker Stars](https://img.shields.io/docker/stars/psitrax/powerdns.svg)](https://hub.docker.com/r/psitrax/powerdns/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/psitrax/powerdns.svg)](https://hub.docker.com/r/psitrax/powerdns/)
-[![Docker Automated buil](https://img.shields.io/docker/automated/psitrax/powerdns.svg)](https://hub.docker.com/r/psitrax/powerdns/)
-
-* Small Alpine based Image
-* MySQL (default), Postgres, SQLite and Bind backend included
+* Small Alpine based image
+* MySQL/MariaDB backend included
 * DNSSEC support optional
 * Automatic MySQL database initialization
 * Latest PowerDNS version (if not pls file an issue)
 * Guardian process enabled
-* Graceful shutdown using pdns_control
+* Graceful shutdown using `pdns_control`
 
 ## Supported tags
 
@@ -37,7 +32,7 @@ $ docker run --name pdns \
   -e MYSQL_USER=root \
   -e MYSQL_PASS=supersecret \
   -e MYSQL_PORT=3306 \
-  freinet/powerdns \
+  docker.io/freinet/powerdns \
     --cache-ttl=120 \
     --allow-axfr-ips=127.0.0.1,123.1.2.3
 ```

@@ -1,32 +1,24 @@
-FROM alpine:3.13
-LABEL Name="powerdns" Version="4.4.1" maintainers="Sebastian Pitsch <pitsch@freinet.de>, Dominic Zöller <zoeller@freinet.de>"
+FROM alpine:3.14
+LABEL name="powerdns" version="4.4.1" maintainers="Sebastian Pitsch <pitsch@freinet.de>, Dominic Zöller <zoeller@freinet.de>"
 # Based on https://hub.docker.com/r/psitrax/powerdns/
 
-ENV POWERDNS_VERSION=4.4.1 \
-    MYSQL_DEFAULT_AUTOCONF=true \
+ENV MYSQL_DEFAULT_AUTOCONF=true \
     MYSQL_DEFAULT_HOST="mysql" \
     MYSQL_DEFAULT_PORT="3306" \
     MYSQL_DEFAULT_USER="root" \
     MYSQL_DEFAULT_PASS="root" \
     MYSQL_DEFAULT_DB="pdns"
 
-RUN apk --update add bash libpq sqlite-libs libstdc++ libgcc mariadb-client mariadb-connector-c lua-dev curl-dev && \
-    apk add --virtual build-deps \
-      g++ make mariadb-dev postgresql-dev sqlite-dev curl boost-dev mariadb-connector-c-dev && \
-    curl -sSL https://downloads.powerdns.com/releases/pdns-$POWERDNS_VERSION.tar.bz2 | tar xj -C /tmp && \
-    cd /tmp/pdns-$POWERDNS_VERSION && \
-    ./configure --prefix="" --exec-prefix=/usr --sysconfdir=/etc/pdns \
-      --with-modules="bind gmysql gpgsql gsqlite3" && \
-    make && make install-strip && cd / && \
+RUN apk add --no-cache \
+    bash=5.1.4-r0 \
+    mariadb-client=10.5.12-r0 \
+    pdns=4.4.1-r6 \
+    pdns-backend-mariadb=4.4.1-r6 && \
     mkdir -p /etc/pdns/conf.d && \
-    addgroup -S pdns 2>/dev/null && \
-    adduser -S -D -H -h /var/empty -s /bin/false -G pdns -g pdns pdns 2>/dev/null && \
-    apk del --purge build-deps && \
-    apk add boost-program_options && \
-    rm -rf /tmp/pdns-$POWERDNS_VERSION /var/cache/apk/*
+    rm -rf /var/cache/apk/*
 
-ADD schema.sql pdns.conf /etc/pdns/
-ADD entrypoint.sh /
+COPY schema.sql pdns.conf /etc/pdns/
+COPY entrypoint.sh /
 
 EXPOSE 53/tcp 53/udp
 
