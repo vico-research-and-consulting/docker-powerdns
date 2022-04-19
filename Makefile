@@ -1,7 +1,7 @@
 COMMIT_ID := $$(git log -1 --date=short --pretty=format:%cd.%h)
 TAG   := $$(git describe --exact-match --tags $$(git log -n1 --pretty='%h'))
 
-NAME   := freinet/powerdns
+NAME   := vicoresearch/powerdns
 IMG    := ${NAME}:${COMMIT_ID}
 GIT_TAGGED := ${NAME}:${TAG}
 LATEST := ${NAME}:latest
