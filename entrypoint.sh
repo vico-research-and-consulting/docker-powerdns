@@ -36,6 +36,11 @@ docker_setup_env() {
     file_env 'MYSQL_PASS' $MYSQL_DEFAULT_PASS
     file_env 'MYSQL_USER' $MYSQL_DEFAULT_USER
     file_env 'MYSQL_PORT' $MYSQL_DEFAULT_PORT
+    file_env 'MYSQL_PORT' $MYSQL_DEFAULT_PORT
+    file_env 'DEFAULT_SOA_CONTENT' $DEFAULT_SOA_CONTENT
+    file_env 'LOGLEVEL' $LOGLEVEL
+    file_env 'LOG_DNS_QUERIES' $LOG_DNS_QUERIES
+    file_env 'LOG_DNS_DETAILS' $LOG_DNS_DETAILS
 }
 
 docker_setup_env
@@ -53,6 +58,10 @@ if $MYSQL_AUTOCONF ; then
   sed -r -i "s/^[# ]*gmysql-password=.*/gmysql-password=${MYSQL_PASS}/g" /etc/pdns/pdns.conf
   sed -r -i "s/^[# ]*gmysql-dbname=.*/gmysql-dbname=${MYSQL_DB}/g" /etc/pdns/pdns.conf
   sed -r -i "s/^[# ]*gmysql-dnssec=.*/gmysql-dnssec=${MYSQL_DNSSEC}/g" /etc/pdns/pdns.conf
+  sed -r -i "s/^[# ]*default-soa-content=.*/default-soa-content=${DEFAULT_SOA_CONTENT}/g" /etc/pdns/pdns.conf
+  sed -r -i "s/^[# ]*loglevel=.*/loglevel=${LOGLEVEL}/g" /etc/pdns/pdns.conf
+  sed -r -i "s/^[# ]*log-dns-queries=.*/log-dns-queries=${LOG_DNS_QUERIES}/g" /etc/pdns/pdns.conf
+  sed -r -i "s/^[# ]*log-dns-details=.*/log-dns-details=${LOG_DNS_DETAILS}/g" /etc/pdns/pdns.conf
 
   MYSQLCMD="mysql --host=${MYSQL_HOST} --user=${MYSQL_USER} --password=${MYSQL_PASS} --port=${MYSQL_PORT} -r -N"
 

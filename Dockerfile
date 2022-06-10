@@ -1,5 +1,5 @@
 FROM alpine:3.15
-LABEL name="powerdns" version="4.5.4" maintainers="Sebastian Pitsch <pitsch@freinet.de>, Dominic Zöller <zoeller@freinet.de>"
+LABEL name="powerdns" version="4.5.4" maintainers="Amin Dandache <amin.dandache@vico-consulting.com>"
 # Based on https://hub.docker.com/r/psitrax/powerdns/
 
 ENV MYSQL_DEFAULT_AUTOCONF=true \
@@ -7,7 +7,11 @@ ENV MYSQL_DEFAULT_AUTOCONF=true \
     MYSQL_DEFAULT_PORT="3306" \
     MYSQL_DEFAULT_USER="root" \
     MYSQL_DEFAULT_PASS="root" \
-    MYSQL_DEFAULT_DB="pdns"
+    MYSQL_DEFAULT_DB="pdns" \
+    DEFAULT_SOA_CONTENT="a.misconfigured.dns.server.invalid hostmaster.@ 0 10800 3600 604800 3600" \
+    LOGLEVEL=3 \
+    LOG_DNS_QUERIES="no" \
+    LOG_DNS_DETAILS="no"
 
 RUN apk add --no-cache \
     bash=5.1.16-r0 \

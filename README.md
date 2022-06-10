@@ -11,7 +11,7 @@ Based on [psitrax/powerdns](https://hub.docker.com/r/psitrax/powerdns/).
 
 ## Supported tags
 
-* Exact: i.e. `4.4.1`: PowerDNS Version 4.4.1
+* Exact: i.e. `4.5.1`: PowerDNS Version 4.5.1
 * `4.0`: PowerDNS Version 4.0.x, latest image build
 * `4`: PowerDNS Version 4.x.x, latest image build
 
@@ -32,7 +32,7 @@ $ docker run --name pdns \
   -e MYSQL_USER=root \
   -e MYSQL_PASS=supersecret \
   -e MYSQL_PORT=3306 \
-  docker.io/freinet/powerdns \
+  docker.io/vico-research/powerdns \
     --cache-ttl=120 \
     --allow-axfr-ips=127.0.0.1,123.1.2.3
 ```
@@ -56,7 +56,7 @@ $ docker run --name pdns \
 **PowerDNS Configuration:**
 
 Append the PowerDNS setting to the command as shown in the example above.
-See `docker run --rm freinet/powerdns --help`
+See `docker run --rm vico-research/powerdns --help`
 
 ## License
 
@@ -64,12 +64,13 @@ See `docker run --rm freinet/powerdns --help`
 
 
 ## Maintainers
+* Amin Dandache <amin.dandache@vico-research.com>
 
-* Sebastian Pitsch <pitsch@freinet.de>
-* Dominic Zöller <zoeller@freinet.de>
 
 ### Credits
 
+* Sebastian Pitsch <pitsch@freinet.de>: Fork from Project we forked from
+* Dominic Zöller <zoeller@freinet.de>: Fork from Project we forked from
 * Christoph Wiechert <wio@psitrax.de>: Original Project which we forked from
 * Mathias Kaufmann <me@stei.gr>: Reduced image size
 
