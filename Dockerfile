@@ -15,7 +15,7 @@ ENV MYSQL_DEFAULT_AUTOCONF=true \
 
 RUN apk add --no-cache \
     bash=5.1.16-r0 \
-    mariadb-client=10.6.7-r0 \
+    mariadb-client=10.6.8-r0 \
     pdns=4.5.4-r0 \
     pdns-backend-mariadb=4.5.4-r0 && \
     mkdir -p /etc/pdns/conf.d && \
