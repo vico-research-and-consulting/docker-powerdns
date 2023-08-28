@@ -2,7 +2,7 @@ COMMIT_ID := $$(git log -1 --date=short --pretty=format:%cd.%h)
 TAG   := $$(git describe --exact-match --tags $$(git log -n1 --pretty='%h'))
 
 NAME   := vicoresearch/powerdns
-IMG    := ${NAME}:${COMMIT_ID}
+IMG    := ${NAME}:${TAG}
 GIT_TAGGED := ${NAME}:${TAG}
 LATEST := ${NAME}:latest
 TEST := ${NAME}:test

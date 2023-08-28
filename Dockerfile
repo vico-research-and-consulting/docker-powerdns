@@ -15,7 +15,7 @@ ENV MYSQL_DEFAULT_AUTOCONF=true \
 
 RUN apk add --no-cache \
     bash=5.1.16-r0 \
-    mariadb-client=10.6.8-r0 \
+    mariadb-client=10.6.14-r0 \
     pdns=4.5.4-r0 \
     pdns-backend-mariadb=4.5.4-r0 && \
     mkdir -p /etc/pdns/conf.d && \
@@ -23,6 +23,7 @@ RUN apk add --no-cache \
 
 COPY schema.sql pdns.conf /etc/pdns/
 COPY entrypoint.sh /
+COPY set_zone.sh /
 
 EXPOSE 53/tcp 53/udp
 
