@@ -1,5 +1,5 @@
-FROM alpine:3.15
-LABEL name="powerdns" version="4.5.4" maintainers="Amin Dandache <amin.dandache@vico-consulting.com>"
+FROM alpine:3.18
+LABEL name="powerdns" version="4.7.4" maintainers="Amin Dandache <amin.dandache@vico-consulting.com>"
 # Based on https://hub.docker.com/r/psitrax/powerdns/
 
 ENV MYSQL_DEFAULT_AUTOCONF=true \
@@ -14,10 +14,10 @@ ENV MYSQL_DEFAULT_AUTOCONF=true \
     LOG_DNS_DETAILS="no"
 
 RUN apk add --no-cache \
-    bash=5.1.16-r0 \
-    mariadb-client=10.6.14-r0 \
-    pdns=4.5.4-r0 \
-    pdns-backend-mariadb=4.5.4-r0 && \
+    bash=5.2.15-r5 \
+    mariadb-client=10.11.4-r0 \
+    pdns=4.7.4-r0 \
+    pdns-backend-mariadb=4.7.4-r0 && \
     mkdir -p /etc/pdns/conf.d && \
     rm -rf /var/cache/apk/*
 

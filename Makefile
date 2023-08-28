@@ -1,5 +1,5 @@
 COMMIT_ID := $$(git log -1 --date=short --pretty=format:%cd.%h)
-TAG   := $$(git describe --exact-match --tags $$(git log -n1 --pretty='%h'))
+TAG   := $$(git describe --tags $$(git rev-list --tags --max-count=1))
 
 NAME   := vicoresearch/powerdns
 IMG    := ${NAME}:${TAG}
@@ -19,10 +19,6 @@ help: ## This help.
 
 build: ## build the container
 	@docker build -t ${IMG} .
-	@if [ ! -z $$(git describe --exact-match --tags $$(git log -n1 --pretty='%h')) ] ; then \
-		echo ${GIT_TAGGED} ; \
-		docker tag ${IMG} ${GIT_TAGGED}; \
-	fi ;
 
 build-test:
 	@docker build -t ${IMG} .
